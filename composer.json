@@ -1,0 +1,20 @@
+{
+    "name": "xmlscript/cb",
+    "description": "",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "xmlscript",
+            "email": "xmlscript@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "xmlscript/srv": "master-dev"
+    },
+    "autoload": {
+      "psr-4": {
+        "cb\\": ""
+      }
+    }
+}
