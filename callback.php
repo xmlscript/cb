@@ -11,11 +11,6 @@ final class callback extends \srv\api{
     $this->event = $event;
     $this->message = $message;
   }
-
-
-  function __toString():string{
-    return $this();
-  }
   
 
   function &GET(string $signature, int $timestamp, string $nonce, string $echostr):string{

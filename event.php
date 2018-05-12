@@ -165,13 +165,13 @@ class event{
 
   //{{{ 卡券事件 https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025274
 
-  function card_pass_check(\SimpleXMLElement &$dom):void{}//卡券审核
+  function card_pass_check(\SimpleXMLElement &$dom):void{}//卡券通过审核
 
   /**
    * @param string CardId
    * @param string RefuseReason
    */
-  function card_not_pass_check(\SimpleXMLElement &$dom):void{}//卡券审核
+  function card_not_pass_check(\SimpleXMLElement &$dom):void{}//卡券无法通过审核
 
   /**
    * @param string CardId
@@ -224,13 +224,15 @@ class event{
    * @param LocationId 门店ID，当前卡券核销的门店ID（只有通过卡券商户助手和买单核销时才会出现）
    * @param Fee 实付金额，单位为分
    * @param OriginalFee 应付金额，单位为分
+   * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025056
    */
   function user_pay_from_pay_cell(\SimpleXMLElement &$dom):void{}//买单完成时
 
 
   /**
    * 用户在进入会员卡时，微信会把这个事件推送到开发者填写的URL。
-   * 需要开发者在创建会员卡时填入need_push_on_view 字段并设置为true。开发者须综合考虑领卡人数和服务器压力，决定是否接收该事件。
+   * 需要开发者在创建会员卡时填入need_push_on_view 字段并设置为true。
+   * 开发者须综合考虑领卡人数和服务器压力，决定是否接收该事件。
    * @param CardId
    * @param UserCardCode 商户自定义code值。非自定code推送为空串。
    * @param OuterStr 商户自定义二维码渠道参数，用于标识本次扫码打开会员卡来源来自于某个渠道值的二维码
