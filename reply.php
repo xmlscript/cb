@@ -20,7 +20,7 @@ final class reply{
   }
 
 
-  function text(string $Content):\DOMDocument{
+  function text(string $Content=''):\DOMDocument{
     $doc = new \DOMDocument;
     $doc->loadXML(sprintf($this->tpl,
       "<MsgType><![CDATA[text]]></MsgType><Content><![CDATA[$Content]]></Content>"
@@ -112,6 +112,20 @@ error_log($doc->saveXML());
       "<MsgType><![CDATA[news]]></MsgType><ArticleCount>1</ArticleCount><Articles><item><Title><![CDATA[$Title]]></Title><Description><![CDATA[$Description]]></Description><PicUrl><![CDATA[$PicUrl]]></PicUrl><Url><![CDATA[$Url]]></Url></item></Articles>"
     ),LIBXML_COMPACT|LIBXML_NOBLANKS|LIBXML_NOXMLDECL);
     return $doc;
+  }
+
+
+  /**
+   * 如果是图文素材{news_item:[{title,thumb_media_id,show_cover_pic,author,digest,content,url,...]}
+   * 如果是视频素材{title,description,down_url}
+   * 如果是其他素材，则一律直接返回文件
+   */
+  function media(string $id):?\DOMDocument{
+    https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738730
+    $result = token::check(request::url(token::HOST.'/cgi-bin/material/get_material')
+      ->query(['access_token'=>(string)$this->token])
+      ->POST(json_encode(['media_id'=>$media_id]))
+      ->json());
   }
 
 }
