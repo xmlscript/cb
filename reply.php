@@ -107,10 +107,6 @@ error_log($doc->saveXML());
 
 
   function article(string $Title=null, string $Description=null, string $Url=null, ?string $PicUrl='about:blank'):?\DOMDocument{
-    if(isset($Url)&&!filter_var($Url,FILTER_VALIDATE_URL,FILTER_FLAG_SCHEME_REQUIRED|FILTER_FLAG_HOST_REQUIRED)){
-      error_log("Url $Url");
-      return null;
-    }
     $doc = new \DOMDocument;
     $doc->loadXML(sprintf($this->tpl,
       "<MsgType><![CDATA[news]]></MsgType><ArticleCount>1</ArticleCount><Articles><item><Title><![CDATA[$Title]]></Title><Description><![CDATA[$Description]]></Description><PicUrl><![CDATA[$PicUrl]]></PicUrl><Url><![CDATA[$Url]]></Url></item></Articles>"
