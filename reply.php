@@ -118,14 +118,36 @@ error_log($doc->saveXML());
   /**
    * 如果是图文素材{news_item:[{title,thumb_media_id,show_cover_pic,author,digest,content,url,...]}
    * 如果是视频素材{title,description,down_url}
-   * 如果是其他素材，则一律直接返回文件
+   * 如果是其他素材，则一律直接返回文件 voice? thumb? image?
+   * 自定义菜单是可以指定两种类型：media_id(!text)和view_limited(news)
    */
   function media(string $id):?\DOMDocument{
     https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738730
-    $result = token::check(request::url(token::HOST.'/cgi-bin/material/get_material')
+    $response = request::url(token::HOST.'/cgi-bin/material/get_material')
       ->query(['access_token'=>(string)$this->token])
-      ->POST(json_encode(['media_id'=>$media_id]))
-      ->json());
+      ->POST(json_encode(['media_id'=>$media_id]));
+
+    switch(strstr($resource->header('content-type'),'/',true)){
+      case 'application':
+        $json = $response->json();
+        if(isset($json->news_item)){
+          $arr = [];
+          foreach($json->news_item as $v){
+            $json->thumb_media_id;//FIXME 提取并转换成图片地址
+            $PicUrl = '转换图片地址';
+            $arr[] = $this->article($json->title, $json->digest, $json->url, $json->show_cover_pic?$PicUrl:null);
+          }
+          return $this->news(...$arr);
+        }else
+          return $this->video($id,$json->title, $json->description);
+      case 'audio':
+        return $this->voice($id);
+      case 'image':
+        return $this->image($id);
+      default:
+        return $this->text($type);
+        return null;
+    }
   }
 
 }
