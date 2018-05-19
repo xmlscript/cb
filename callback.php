@@ -23,7 +23,12 @@ final class callback extends \srv\api{
   }
 
 
-  function POST():string{
+  /**
+   * @param string $openid ???
+   */
+  function POST(string $signature, int $timestamp, string $nonce, string $openid=null):string{
+
+    $this->GET($signature, $timestamp, $nonce, '');
 
     libxml_use_internal_errors(true);
 
